@@ -13,13 +13,11 @@ uint32_t previousMillis2 = 0UL;
 const int moisturesensor1 = A0;
 const int moisturesensor2 = A1;
 const int moisturesensor3 = A2;
-float avg_soilMoisturepercent=0.00;
+float avg_soilMoisturepercent = 0.00;
 
 //LDR sensor
-unsigned int LightValue = analogRead(A3);
 unsigned int darkness = 1000;
 unsigned int light = 400;
-int LightPercent;
 
 //Water Logic Bits
 bool Waterring = 0;
@@ -27,24 +25,24 @@ bool Waterring = 0;
 //soil mositure 1 calibration
 const int AirValue = 620;   //replace the value with value when placed in air using calibration code
 const int WaterValue = 275; //replace the value with value when placed in water using calibration code
-int soilMoistureValue1 = 0;
+int soilmoisturevalue1 = 0;
 int soilmoisturepercent1 = 0;
 
 //soil mositure 2 calibration
 //const int AirValue2 = 576;   //replace the value with value when placed in air using calibration code
 //const int WaterValue2 = 301; //replace the value with value when placed in water using calibration code
-int soilMoistureValue2 = 0;
+int soilmoisturevalue2 = 0;
 int soilmoisturepercent2 = 0;
 
 //soil mositure 3 calibration
 const int AirValue3 = 576;   //replace the value with value when placed in air using calibration code
 const int WaterValue3 = 301; //replace the value with value when placed in water using calibration code
-int soilMoistureValue3 = 0;
+int soilmoisturevalue3 = 0;
 int soilmoisturepercent3 = 0;
 
 
 //LDR sensor
-const int LDRsensor = A3;
+//const int LDRsensor = A3;
 
 // We define the digital pin where the DHT11 sensor is connected
 #define DHTPIN 3
@@ -100,25 +98,23 @@ void Data()
   if (millis() - previousMillis1 >= 1000)
   {
     /********************************************LDR Sensor**********************************************/
-    LightPercent = map(LightValue, darkness, light, 0, 100);
+    int LightValue = analogRead(A3);
+    int LightPercent = map(LightValue, darkness, light, 0, 100);
 
     if (LightPercent > 100)
     {
       LightPercent = 100;
-      Serial.print("the luminosity percent is: ");
-      Serial.println(LightPercent);
     }
     else if (LightPercent < 0)
     {
       LightPercent = 0;
-      Serial.print("the luminosity percent is: ");
-      Serial.println(LightPercent);
     }
-    else if (LightPercent > 0 && LightPercent < 100)
+    else if (LightPercent >= 0 && LightPercent <= 100)
     {
-      Serial.print("the luminosity percent is: ");
-      Serial.println(LightPercent);
+      LightPercent = LightPercent;
     }
+    Serial.print("the luminosity percent is: ");
+    Serial.println(LightPercent);
 
     /********************************************DHT11 Sensor**********************************************/
     // We read the relative humidity
@@ -132,7 +128,6 @@ void Data()
     }
     Serial.println(humidity);
     Serial.println(temperature);
-    delay(1000);
     /******************************************************************************************************/
 
     /********************************************Soil moisture 1 Sensor**************************************/
@@ -140,22 +135,20 @@ void Data()
     Serial.println("Soil moisture is: ");
     Serial.println(soilmoisture1);
     soilmoisturepercent1 = map(soilmoisture1, AirValue, WaterValue, 0, 100);
-
     if (soilmoisturepercent1 >= 100)
     {
-      Serial.println("100 %");
+      soilmoisturepercent1 = 100;
     }
     else if (soilmoisturepercent1 <= 0)
     {
-      Serial.println("0 %");
-      delay(250);
+      soilmoisturepercent1 = 0;
     }
-    else if (soilmoisturepercent1 > 0 && soilmoisturepercent1 < 100)
+    else if (soilmoisturepercent1 >= 0 && soilmoisturepercent1 <= 100)
     {
-      Serial.print(soilmoisturepercent1);
-      Serial.println("%");
-      delay(1000);
+      soilmoisturepercent1 = soilmoisturepercent1;
     }
+    Serial.print(soilmoisturepercent1);
+    Serial.println("%");
 
 
     /********************************************Soil moisture 2 Sensor**************************************/
@@ -166,20 +159,18 @@ void Data()
 
     if (soilmoisturepercent2 >= 100)
     {
-      Serial.println("100 %");
+      soilmoisturepercent2 = 100;
     }
     else if (soilmoisturepercent2 <= 0)
     {
-      Serial.println("0 %");
-      delay(250);
+      soilmoisturepercent2 = 0;
     }
-    else if (soilmoisturepercent2 > 0 && soilmoisturepercent2 < 100)
+    else if (soilmoisturepercent2 >= 0 && soilmoisturepercent2 <= 100)
     {
-      Serial.print(soilmoisturepercent2);
-      Serial.println("%");
-      delay(1000);
+      soilmoisturepercent2 = soilmoisturepercent2;
     }
-
+    Serial.print(soilmoisturepercent2);
+    Serial.println("%");
     /********************************************Soil moisture 3 Sensor**************************************/
     int soilmoisture3 = analogRead(moisturesensor3);
     Serial.println("Soil moisture is: ");
@@ -188,22 +179,20 @@ void Data()
 
     if (soilmoisturepercent3 >= 100)
     {
-      Serial.println("100 %");
+      soilmoisturepercent3 = 100;
     }
     else if (soilmoisturepercent3 <= 0)
     {
-      Serial.println("0 %");
-      delay(250);
+      soilmoisturepercent3 = 0;
     }
-    else if (soilmoisturepercent3 > 0 && soilmoisturepercent3 < 100)
+    else if (soilmoisturepercent3 >= 0 && soilmoisturepercent3 <= 100)
     {
-      Serial.print(soilmoisturepercent3);
-      Serial.println("%");
-      delay(1000);
+      soilmoisturepercent3 = soilmoisturepercent3;
     }
+    Serial.print(soilmoisturepercent3);
+    Serial.println("%");
 
     /********************************************Soil moisture Average**************************************/
-
     avg_soilMoisturepercent = (soilmoisturepercent1 + soilmoisturepercent2 + soilmoisturepercent3) / 3;
     Serial.print("Average Soil moisture is: ");
     Serial.print(avg_soilMoisturepercent);
@@ -222,24 +211,18 @@ void Data()
     if (tanklevel >= 100)
     {
       tanklevel = 100;
-      Serial.println("actual water level is: ");
-      Serial.println(tanklevel);
     }
     else if (tanklevel <= 0)
     {
       tanklevel = 0;
-      Serial.println("actual water level is: ");
-      Serial.println(tanklevel);
-
-      delay(250);
     }
-    else if (tanklevel > 0 && tanklevel < 100)
+    else if (tanklevel >= 0 && tanklevel <= 100)
     {
-      Serial.println("water level is: ");
-      Serial.print(tanklevel);
-      Serial.println("%");
-      delay(250);
+      tanklevel = tanklevel;
     }
+    Serial.println("Water level is: ");
+    Serial.println(tanklevel);
+    Serial.println("%");
     /******************************************************************************************************/
 
     mydata[0] = humidity;
@@ -257,12 +240,13 @@ void Data()
 
 
   /****************************************************WATERRING LOGIC**************************************************/
+
   if (millis() - previousMillis2 >= 3000)
   {
     //water soil if needed
     Serial.print("average soil moisture");
     Serial.println(avg_soilMoisturepercent);
-    if (avg_soilMoisturepercent <= 25.00) {
+    if (avg_soilMoisturepercent <= 40.00) {
       // the soil is less than dry minus the tolerance value, it will start the pump water!
       Serial.println("Watering starts now..moisture is " + String(avg_soilMoisturepercent));
       Waterring = 1;
@@ -270,7 +254,7 @@ void Data()
     else {
       Serial.println("Moisture is adequate. No watering needed " + String(avg_soilMoisturepercent));
     }
-    if (Waterring == 1 && avg_soilMoisturepercent >= 30.00) {
+    if (Waterring == 1 && avg_soilMoisturepercent >= 45.00) {
       // the soil is less than dry minus the tolerance value, it will start the pump water!
       Serial.println("Watering stops now..moisture is " + String(avg_soilMoisturepercent));
       Waterring = 0;
@@ -281,13 +265,16 @@ void Data()
     {
       digitalWrite(pumpPin, LOW);
       Serial.println("Watering pump running for 5 sec and the moisture is " + String(avg_soilMoisturepercent));
-      // keep watering for 5 sec (we'll discuss this period)
+      // keep watering for 500 milisec
       delay(500);
       digitalWrite(pumpPin, HIGH);
     }
-    delay(5000);
+    //delay(5000);
+    previousMillis2 = millis();
 
   }
+
+
 }
 // Pin mapping
 const lmic_pinmap lmic_pins = {
